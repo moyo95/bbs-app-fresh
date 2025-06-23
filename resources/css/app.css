@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.icon-heart {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.icon-heart:hover {
+  transform: scale(1.1);
+}
+
+
+.like-animation {
+  width: 6.5rem;
+  height: 6.5rem;
+  background: url('/public/images/web_heart_animation.png') no-repeat;
+  scale: 60%;
+  top:40%;
+  left: 40%;
+  pointer-events: none;
+  z-index: 50;
+  position: absolute;
+  transform: translate(-73%, -73%);
+}
