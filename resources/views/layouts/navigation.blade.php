@@ -95,6 +95,7 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+        
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="url('/')" :active="request()->is('/')">
                         {{ __('ホーム') }}
@@ -105,6 +106,14 @@
             <x-responsive-nav-link :href="route('contact.index')" :active="request()->routeIs('contact.index')">
                 {{ __('お問合せ') }}
             </x-responsive-nav-link>
+             @guest
+                    {{-- ログインしていない（ゲスト）場合に表示 --}}
+                    <a href="{{ route('login') }}" class="block ms-4 pt-2 pb-3 font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">ログイン</a>
+
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="block ms-4 pt-2 pb-3 font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">新規登録</a>
+                    @endif
+                @endauth
         </div>
 
         <!-- Responsive Settings Options -->

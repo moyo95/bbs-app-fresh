@@ -45,7 +45,7 @@
                             <form action="{{ route('posts.destroy', $post->id) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150" aria-label="削除ボタン">
                                     削除
                                 </button>
                             </form>
@@ -60,7 +60,7 @@
                     @endphp
 
                     <!--ボタン内に relative を付けることで like-animation の絶対位置を制御 -->
-                    <button class="like-button relative w-14 h-14 overflow-hidden" data-post-id="{{ $post->id }}">
+                    <button class="like-button relative w-14 h-14 overflow-hidden" data-post-id="{{ $post->id }}" aria-label="いいねボタン">
                         <!-- liked -->
                         <svg class="z-10 w-6 h-6 text-red-500 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 {{ $post->isLikedBy(Auth::user()) ? '' : 'hidden' }}"
                             fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -125,14 +125,17 @@
                             const likeCountElement = document.getElementById('likeCount');
 
                             try {
-                                const response = await fetch(`/posts/${postId}/like`, {
-                                    method: 'POST',
-                                    headers: {
-                                        'X-CSRF-TOKEN': csrfToken,
-                                        'Content-Type': 'application/json',
-                                        'Accept': 'application/json'
-                                    },
-                                });
+                            const isProduction = location.hostname === 'graha.site';
+                            const basePath = isProduction ? '/laravel' : '';
+
+                            const response = await fetch(`${basePath}/posts/${postId}/like`, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': csrfToken,
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json'
+                                },
+                            });
 
                                 if (!response.ok) {
                                     throw new Error(`Network response was not ok, status: ${response.status}`);
@@ -202,7 +205,7 @@
                             <textarea name="content" id="comment-content" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" rows="3" required placeholder="コメントを入力..."></textarea>
                         </div>
                         <div class="mt-4">
-                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150" aria-label="コメント投稿ボタン">
                                 コメント投稿
                             </button>
                         </div>
